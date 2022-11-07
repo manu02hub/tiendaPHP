@@ -1,0 +1,28 @@
+{# Enlazar fichero con la plantilla correspondiente #}
+{% extends "plantilla.twig" %}
+
+    {% block title %}Index{% endblock %}
+
+
+    {% block content %}
+    <a href="#" class="btn btn-primary">Plantilla</a>
+    <p>Soy una platilla de users</p>
+
+    <p>{{mensaje}}</p>
+    <p>{{alumno}}<p>
+    
+
+    {% if mensaje %}
+        <p>{{ mensaje }}
+    {% else %}
+        <p>NO EXISTE LA VARIABLE MENSAJE</p>
+    {% endif %}
+
+    <h1>Members</h1>
+    {# Bucle en twig #}
+    <ul>
+        {% for dia in dias %}
+            <p>* {{ dia }}</p>
+        {% endfor %}
+    </ul>
+    {% endblock %}
