@@ -1,0 +1,26 @@
+#Utilizamos el modulo rewrite
+#Si existe el modulo, se ejecutará internamente
+
+<IfModule mod_rewrite.c>
+    #Activamos el modulo rewrite
+    RewriteEngine.on
+
+    #Redireccion de errores (me creo unas vistas twig para lanzar los errorres)
+    ErrorDocument 404
+    ErrorDocument 403
+    ErrorDocument 500
+
+    #No voy a poder cargar un directorio(!-d) y tampoco un fichero(!-f) cualquiera
+    RewriteCond %{SCRIPT_FILENAME}!-d
+    RewriteCond %{SCRIPT_FILENAME}!-f
+
+    #Reglas de reescritura (cambian mi URL quitando controller y action)
+    #Reescribir en el fondo correcto
+
+    # (.*) quiere decir punto cualquier cosa
+    # El primer (.*) implica o sustituye a $1
+    # El segundo (.*) implica o sustituye a $2
+
+    RewiteRule ^(.*)/(.*) ?controller=$1&action=$2
+
+</IfModule>
