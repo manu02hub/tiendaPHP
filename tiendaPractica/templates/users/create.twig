@@ -1,41 +1,33 @@
-{% extends "layouts/admin.twig" %}
+{% extends "plantilla.twig" %}
 
-{% block title %} USUARIOS | CREATE {% endblock %}
+{% block title %} CREATE {% endblock %}
 
 {% block content %} 
-    <!-- check out section -->
-	<div class="checkout-section mt-150 mb-150">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="checkout-accordion-wrap">
-						<div class="accordion" id="accordionExample">
-						  <div class="card single-accordion">
-						    <div class="card-header" id="headingOne">
-						      <h5 class="mb-0">
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						          Crear usuario
-						        </button>
-						      </h5>
-						    </div>
-						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-						      <div class="card-body">
-						        <div class="billing-address-form">
-						        	<form action="{{ URL }}controller=users&action=save" method="POST" method="POST">
-						        		<p><input type="text" id="nombre" name="nombre"  placeholder="nombre"></p>
-                                        <p><input type="text" id="apellidos" name="apellidos"  placeholder="apellidos"></p>
-						        		<p><input type="email" id="email" name="email"  placeholder="email"></p>
-                                        <p><input type="password" id="password" name="password"  placeholder="password"></p>
-                                        <p><button class="btn btn-secondary" type="submit">Crear</button></p>
-						        	</form>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+     <form action="http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=users&action=save" method="POST">
+        <div class="row m-0 p-0 justify-content-center mb-3">
+            <div class="col-6 row">
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombre">
+                    <div id="nombre" class="form-text">Escribe nombre.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="apellidos" class="form-label">apellidos</label>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" aria-describedby="apellidos">
+                    <div id="apellidos" class="form-text">Escribe apellidos.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">email</label>
+                    <input type="email" class="form-control" id="email" name="email" aria-describedby="email">
+                    <div id="email" class="form-text">Escribe email.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">password</label>
+                    <input type="password" class="form-control" id="password" name="password" aria-describedby="password">
+                    <div id="password" class="form-text">Escribe password.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
 {% endblock %}
