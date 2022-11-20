@@ -3,46 +3,59 @@
 
     class UsersController{
        
-        /**
-         * 
-         */
         public static function index(){
-            $user = new User();
-            echo $GLOBALS["twig"]->render(
-                'users/index.twig', 
-                ['users' => $user->findAll()]
-            );
+            if(isset($_SESSION['identity'])){
+                $user = new User();
+                echo $GLOBALS["twig"]->render(
+                    'users/index.twig', 
+                    ['users' => $user->findAll()]
+                );
+            }else{
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+            }
         }
 
         /**
          * 
          */
         public static function create(){
-            echo $GLOBALS["twig"]->render(
-                'users/create.twig'
-            );
+            if(isset($_SESSION['identity'])){
+                echo $GLOBALS["twig"]->render(
+                    'users/create.twig'
+                );
+            }else{
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+            }
         }
 
         /**
          * 
          */
         public static function show(){
-            $user = new User();
-            echo $GLOBALS["twig"]->render(
-                'users/show.twig', 
-                ['user' => $user->findById($_GET['id'])]
-            );
+            if(isset($_SESSION['identity'])){
+                $user = new User();
+                echo $GLOBALS["twig"]->render(
+                    'users/show.twig', 
+                    ['user' => $user->findById($_GET['id'])]
+                );
+            }else{
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+            }
         }
 
         /**
          * 
          */
         public static function edit(){
-            $user = new User();
-            echo $GLOBALS["twig"]->render(
-                'users/edit.twig', 
-                ['user' => $user->findById($_GET['id'])]
-            );
+            if(isset($_SESSION['identity'])){
+                $user = new User();
+                echo $GLOBALS["twig"]->render(
+                    'users/edit.twig', 
+                    ['user' => $user->findById($_GET['id'])]
+                );
+            }else{
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+            }
         }
 
         /**

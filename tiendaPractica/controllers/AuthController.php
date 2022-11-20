@@ -5,11 +5,7 @@
          * Funcion que redirige a la vista del login
          */
         public function login(){
-            echo $GLOBALS['twig']->render('auth/login.twig',
-                [
-                    'URL' => URL
-                ]
-            );
+            echo $GLOBALS['twig']->render('auth/login.twig');
         }
 
         /**
@@ -17,14 +13,9 @@
          */
         public function home(){
             if(isset($_SESSION['identity'])){
-                echo $GLOBALS['twig']->render('home.twig', 
-                    [
-                        'identity' => $_SESSION['identity'],
-                        'URL' => URL
-                    ]
-                );
+                echo $GLOBALS['twig']->render('home.twig');
             }else{
-                header('Location: '.URL.'controller=index&action=index');
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
             }
         }
 
@@ -35,7 +26,7 @@
             if(isset($_SESSION['identity'])){
                 unset($_SESSION['identity']);
             }
-            header('Location: '.URL.'controller=auth&action=login');
+            header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
         }
 
         public function doLogin(){
@@ -51,7 +42,9 @@
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
             $user_ok = $user->login(); // objeto usuario si correcto o false si no correcto
-
+           
+            
+            
             /**
              * Almaceno en $user_ok el resultado de mi metodo login()
              * 
@@ -62,9 +55,9 @@
 
              if($user_ok && is_object($user_ok)){
                 $_SESSION['identity'] = $user_ok;
-                header('Location: '.URL.'controller=auth&action=home');
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=home');
              }else{
-                header('Location: '.URL.'controller=auth&action=login');
+                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
              }
         }
     }
