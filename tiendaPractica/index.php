@@ -10,7 +10,18 @@
       */
   
     // Carga el fichero autoload.php
+    require_once 'config/Parameters.php';
     require_once 'vendor/autoload.php';
+    include 'controllers/UsersController.php';
+    include 'controllers/AuthController.php';
+    include 'controllers/IndexController.php';
+    include 'controllers/ErrorController.php';
+    include 'controllers/ProductosController.php';
+    include 'controllers/CategoriasController.php';
+    include 'controllers/CarritoController.php';
+    include 'controllers/PedidosController.php';
+    // include 'controllers/PerfilController.php';
+    
     session_start();
     
     // Ubicacion de mis plantillas de Twig
@@ -34,9 +45,6 @@
      * 6. Si la accion existe dentro del controlador, la realizamos.
      * 7. Si no existe la accion, error.
      */
-
-    include 'controllers/UserController.php';
-    include 'controllers/AuthController.php';
 
     /**
      * Primero compruebo que controlador voy a cargar por URL
@@ -62,25 +70,28 @@
              */
             $action = $_GET['action'];
             $controller_object->$action();
-
-          }
+        }
         }else{
           /**
-           * Error de que no en cuentra la clase o non existe.
-           * ¿Como gestionamos esto?
-           * ¿Codigo de error?
-           * ¿Vista de error?
+           * Error de que no en cuentra la clase o no existe.
+           * Lanzar el error 404
+           * CAMBIAR CABECERA
            */
+          ErrorController::_404();
         }
       }else{
-        /**
-         * Si no existe un controller en mi URL, pongo una accion por defecto.
-         */
-        // $usersController = new UsersController();
-        // $usersController->index();
-
         //Mi accion por defecto el lanzar mi index.twig como página de caida
-        echo $twig->render('index.twig');
+        // IndexController::index();
+
+        /**
+         * Si no existe un controller en mi URL, recojo el controller por defecto
+         * Si no existe un action en mi URL, recojo el action por defecto
+         */
+        $controller_default = controller_default;
+        $action_default = action_default;
+        $controller = new $controller_default();
+        $controller::$action_default();
+
         /**
          * Si no existe el parametro controller en la URL tengo que hacer algo.
          * Enviar un error
@@ -91,3 +102,4 @@
          * ¿Enviar a un controlador por defecto?
          */
       }
+?>

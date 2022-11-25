@@ -1,11 +1,16 @@
 <?php 
-
+require_once 'models/Producto.php';
+require_once 'models/Categoria.php';
     class AuthController{
         /**
          * Funcion que redirige a la vista del login
          */
         public function login(){
-            echo $GLOBALS['twig']->render('auth/login.twig');
+            echo $GLOBALS['twig']->render('auth/login.twig',
+                [
+                    'URL' => URL
+                ]
+            );
         }
 
         /**
@@ -13,9 +18,14 @@
          */
         public function home(){
             if(isset($_SESSION['identity'])){
-                echo $GLOBALS['twig']->render('home.twig');
+                echo $GLOBALS['twig']->render('home.twig', 
+                    [
+                        'identity' => $_SESSION['identity'],
+                        'URL' => URL
+                    ]
+                );
             }else{
-                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+                header('Location: '.URL.'controller=index&action=index');
             }
         }
 
@@ -26,7 +36,10 @@
             if(isset($_SESSION['identity'])){
                 unset($_SESSION['identity']);
             }
-            header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+            if(isset($_SESSION['admin'])){
+                unset($_SESSION['admin']);
+            }
+            header('Location: '.URL.'controller=auth&action=login');
         }
 
         public function doLogin(){
@@ -42,9 +55,7 @@
             $user->setEmail($_POST['email']);
             $user->setPassword($_POST['password']);
             $user_ok = $user->login(); // objeto usuario si correcto o false si no correcto
-           
-            
-            
+
             /**
              * Almaceno en $user_ok el resultado de mi metodo login()
              * 
@@ -53,12 +64,40 @@
              * nombre 'identity'
              */
 
+             /**
+              * Debo distinguir a que vista llevo a mi administrador y a mi cliente. Deben ser distintas
+              */
              if($user_ok && is_object($user_ok)){
                 $_SESSION['identity'] = $user_ok;
-                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=home');
+
+                if(isset($_SESSION['admin'])){
+                    header('Location: '.URL.'controller=auth&action=home');
+                }else{
+                    header('Location: '.URL.'controller=auth&action=welcome');
+                }
              }else{
-                header('Location: http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaPractica/?controller=auth&action=login');
+                header('Location: '.URL.'controller=auth&action=login');
              }
+        }
+
+        /**
+         * Funcion que me lleva a la vista de CLIENTE
+         */
+        public static function welcome(){
+            if(isset($_SESSION['identity'])){
+                $producto = new Producto();
+                $categoria = new Categoria();
+                echo $GLOBALS['twig']->render('welcome.twig', 
+                        [
+                            'productos' => $producto->findAll(),
+                            'categorias' => $categoria->findAll(),
+                            'identity' => $_SESSION['identity'],
+                            'URL' => URL
+                        ]
+                    );
+            }else{
+                header('Location: '.URL.'controller=index&action=index');
+            }
         }
     }
 ?>

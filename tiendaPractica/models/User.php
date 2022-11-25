@@ -53,8 +53,8 @@
         }
     
         function setPassword($password) {
-            $this->password = $password;
-         }
+           $this->password = $password;
+        }
 
         // Me va a devolver todos los elementos
         public function findAll(){
@@ -66,19 +66,25 @@
         // Me devuelve el elemento filtrado por id
         public function findById(){
             $db = Database::conectar();
-            return $db->query("SELECT * FROM users WHERE id=$this->id");
+            return $db->query("SELECT * FROM users WHERE id=$this->id")->fetch_object();
         }
 
         // Insertar en la base de datos
         public function save(){
             $db = Database::conectar();
-            $save = $db->query("INSERT INTO users (nombre, apellidos, email, password) VALUES ('$this->nombre','$this->apellidos', '$this->email', '$this->password')");
+            if($this->password != null){
+                $save = $db->query("INSERT INTO users (nombre, apellidos, email, password) VALUES ('$this->nombre','$this->apellidos', '$this->email', '$this->password')");
+            }
         }
 
         // Actualizar en la base de datos filtrando por id
         public function update(){
             $db = Database::conectar();
-            $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', email='$this->email', password='$this->password'");
+            if($this->password != null){
+                $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', email='$this->email', password='$this->password' WHERE id=$this->id");
+            }else{
+                $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', email='$this->email' WHERE id=$this->id");
+            }
         }
 
         // Eliminar en la base de datos filtrando por id
@@ -86,9 +92,8 @@
             $db = Database::conectar();
             $delete = $db->query("DELETE FROM users WHERE id=$this->id");
         }
-    
 
-    /**
+        /**
          * Funcion login realiza la comprobacion de los campos introducidos.
          * En caso correcto devuelve el usuario
          * En caso incorrecto devuelve false
@@ -109,8 +114,6 @@
                  * recogidos de mi BD en un formato de objeto
                  */
                 $user = $user->fetch_object();
-                var_dump($user);
-               
                
                 /**
                  * password_verify comprueba un string con otro encriptado.
@@ -120,10 +123,30 @@
 
                 if($verify){
                     // El password coincide y debo realizar el login
+                    if($this->isAdmin($user->id)){
+                        // Distinguir si es administrador o cliente
+                        $_SESSION['admin'] = true;
+                    }
                     return $user;
                 }else{
                     return false;
                 }
             }
         }
+
+        /**
+         * Funcion que comprueba si el usuario que se esta logueando es administrador o cliente
+         * Si es Admin, el id del rol es 1
+         * Si es Cliente, el id del rol es 2
+         */
+        public static function isAdmin($id){
+            $db = Database::conectar();
+            $tipo = $db->query("SELECT rol_id FROM users_has_rol WHERE user_id=$id")->fetch_object();
+            if($tipo->rol_id == 1){
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
+?>
