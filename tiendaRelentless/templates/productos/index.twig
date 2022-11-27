@@ -1,0 +1,67 @@
+{# Enlazar este fichero con la plantilla correspondiente #}
+{% extends "layouts/private.twig" %}
+{% block title %}
+Index Admin
+
+
+{% endblock %}
+{% block style %}
+<!-- CSS only -->
+<link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+<!-- JavaScript Bundle with Popper -->
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+{% endblock %}
+{% block content %}
+
+<body>
+    <div class="row m-5">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Regular Price</th>
+                        <th>Sale Price</th>
+                        <th>Stock</th>
+                        <th><a href="{{ URL }}?controller=productos&action=create" class="btn btn-success btn-sm">
+                            Crear                                             
+                        </a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in productos %}
+                    <tr>
+                        <td>{{ u.id }}</td>
+                        <td><img src="{{ u.img }}"> </td>
+                        <td>{{ u.nombre }}</td>
+                        <td>{{ u.precio_regular }}</td>
+                        <td>{{ u.precio_venta }}</td>
+                        <td>{{ u.stock }}</td>
+                        <td><a href="{{ URL }}?controller=productos&action=edit&id={{ u.id }}" class="btn btn-warning btn-sm">
+                            Editar                                             
+                        </a>
+                        <a href="{{ URL }}?controller=productos&action=delete&id={{ u.id }}" class="btn btn-danger btn-sm">
+                            Eliminar                                               
+                        </a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+{% endblock %}

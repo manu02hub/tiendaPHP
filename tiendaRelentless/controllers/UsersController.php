@@ -1,6 +1,7 @@
 <?php
 require_once 'models/User.php';
 
+
 class UsersController
 {
     /**
@@ -8,8 +9,9 @@ class UsersController
      */
     public static function index()
     {
-        if (isset($_SESSION['identity']) && isset($_SESSION['admin'])) {
+        if (isset($_SESSION['identity']) && $_SESSION['identity']->id_rol == 1) {
             $user = new User();
+            $user->findAll();
             echo $GLOBALS["twig"]->render(
                 'users/index.twig',
                 [
@@ -67,7 +69,7 @@ class UsersController
      */
     public static function edit()
     {
-        if (isset($_SESSION['identity']) && isset($_SESSION['admin'])) {
+        if (isset($_SESSION['identity']) && $_SESSION['identity']->id_rol == 1) {
             $user = new User();
             $user->setId($_GET['id']);
             echo $GLOBALS["twig"]->render(
@@ -79,7 +81,7 @@ class UsersController
                 ]
             );
         } else {
-            header('Location: ' . URL . 'controller=auth&action=login');
+            header('Location: ' . URL . '?controller=auth&action=login');
         }
     }
 
@@ -93,12 +95,18 @@ class UsersController
         $user->setNombre($_POST['nombre']);
         $user->setApellidos($_POST['apellidos']);
         $user->setNacionalidad($_POST['nacionalidad']);
+        $user->setIdRol($_POST['rol']);
         $user->setEmail($_POST['email']);
         if (isset($_POST['password'])) {
             $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT, ['cont' => 4]));
         }
         $user->save();
-        header('Location: ' . URL . 'controller=auth&action=login');
+
+        if (isset($_SESSION['identity']) && $_SESSION['identity']->id_rol == 1) {
+            header('Location: ' . URL . '?controller=users&action=index');
+        } else {
+            header('Location: ' . URL . '?controller=auth&action=login');
+        }
     }
 
     /**
@@ -106,19 +114,21 @@ class UsersController
      */
     public static function update()
     {
-        if (isset($_SESSION['identity'])) {
-            $user = new User();
-            $user->setId($_POST['id']);
-            $user->setNombre($_POST['nombre']);
-            $user->setApellidos($_POST['apellidos']);
-            $user->setEmail($_POST['email']);
-            if (isset($_POST['password'])) {
-                $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT, ['cont' => 4]));
-            }
-            $user->update();
-            header('Location: ' . URL . 'controller=users&action=index');
+        $user = new User();
+        $user->setId($_POST['id']);
+        $user->setNombre($_POST['nombre']);
+        $user->setApellidos($_POST['apellidos']);
+        $user->setNacionalidad($_POST['nacionalidad']);
+        $user->setIdRol($_POST['rol']);
+        $user->setEmail($_POST['email']);
+        if (isset($_POST['password'])) {
+            $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT, ['cont' => 4]));
+        }
+        $user->update();
+        if (isset($_SESSION['identity']) && $_SESSION['identity']->id_rol == 1) {
+            header('Location: ' . URL . '?controller=users&action=index');
         } else {
-            header('Location: ' . URL . 'controller=auth&action=login');
+            header('Location: ' . URL . '?controller=auth&action=login');
         }
     }
     /**

@@ -46,12 +46,12 @@ class AuthController
            
 
             if ($_SESSION['identity']->id_rol == 2) {
-                header('Location: ' . URL . 'controller=index&action=shop');
+                header('Location: ' . URL . '?controller=index&action=shop');
             } else {
-                header('Location: ' . URL . 'controller=index&action=admin');
+                header('Location: ' . URL . '?controller=admin&action=adminIndex');
             }
         } else {
-            header('Location: ' . URL . 'controller=auth&action=registro');
+            header('Location: ' . URL . '?controller=auth&action=registro');
         }
     }
 }

@@ -15,6 +15,9 @@
     include 'controllers/IndexController.php';
     include 'controllers/UsersController.php';
     include 'controllers/AuthController.php';
+    include 'controllers/AdminController.php';
+    include 'controllers/CategoriasController.php';
+    include 'controllers/ProductosController.php';
   
     
     session_start();

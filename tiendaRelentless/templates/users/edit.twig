@@ -1,0 +1,103 @@
+{# Enlazar este fichero con la plantilla correspondiente #}
+{% extends "layouts/private.twig" %}
+{% block title %}
+    Index Admin
+        
+    
+{% endblock %}
+{% block style %}
+
+{% endblock %}
+{% block content %}
+
+<body>
+    <div class="row m-5">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <form class="row g-3" action="{{ URL }}?controller=users&action=update" method="POST">
+            <input type="number" class="form-control" id="id" name="id" value="{{ user.id }}" hidden>
+                <div class="col-md-6">
+                    <label for="inputnombre" class="form-label">
+                        Nombre
+
+                    </label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" value="{{ user.nombre }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputApellidos" class="form-label">
+                        Apellidos
+                    </label>
+                    <input type="text" class="form-control" id="apellidos" name="apellidos" value="{{ user.apellidos }}">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputState" class="form-label">
+                        Nacionalidad
+
+                    </label>
+                    <select id="inputState" class="form-select" name="nacionalidad" value="{{ user.nacionalidad }}">
+                        <option>
+                            España
+
+                        </option>
+                        <option>
+                            Inglaterra
+
+                        </option>
+                        <option>
+                            EE.UU
+
+                        </option>
+                        <option>
+                            Francia
+
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputState" class="form-label">
+                        Tipo de Usuario
+
+                    </label>
+                    <select id="inputState" class="form-select" name="rol" value="{{ user.rol }}">
+                        <option select value="1">
+                            Admin
+
+                        </option>
+                        <option value="2">
+                            User
+
+                        </option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label for="inputEmail4" class="form-label">
+                        Email
+
+                    </label>
+                    <input type="email" class="form-control" id="inputEmail4" name="email" value="{{ user.email }}">
+                </div>
+                <div class="col-12 mb-4">
+                    <label for="inputPassword4" class="form-label">
+                        Password
+
+                    </label>
+                    <input type="password" class="form-control" id="inputPassword4" name="password" value="{{ user.password }}">
+                </div>
+
+
+                <button type="button" class="btn btn-secondary" action="{{ URL }}?controller=admin&action=adminUser">
+                    Cancel
+
+                </button>
+                <button type="submit" class="btn btn-warning">
+                    Aplicar Cambios
+
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+
+{% endblock %}
+{% block script %}
+
+{% endblock %}

@@ -2,36 +2,231 @@
 {% extends "layouts/private.twig" %}
 {% block title %}
     Index Admin
+        
+    
 {% endblock %}
-{% block content %}
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-            <table id="example" class="display" style="width:100%">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Salary</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th>Office</th>
-                    <th>Salary</th>
-                </tr>
-            </tfoot>
-        </table>
+{% block style %}
+    <!-- CSS only -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
+            <!-- JavaScript Bundle with Popper -->
+            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+            <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+        {% endblock %}
+        {% block content %}
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <table id="example" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Id
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        Nombre
+                                                                                
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        Apellidos
+                                                                                
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        Nacionalidad
+                                                                                
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        Email
+                                                                                
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        Fecha Registro
+                                                                                
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        Id rol
+                                                                                
+                                                                                
+                                                                                                        
+                                                                            
+                                    </th>
+                                    <th>
+                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Crear
+                                                                                                                    
+                                                                                    
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for u in users %}
+                                    <tr>
+                                        <td>
+                                            {{ u.id }}
+                                        </td>
+                                        <td>
+                                            {{ u.nombre }}
+                                        </td>
+                                        <td>
+                                            {{ u.apellidos }}
+                                        </td>
+                                        <td>
+                                            {{ u.nacionalidad }}
+                                        </td>
+                                        <td>
+                                            {{ u.email }}
+                                        </td>
+                                        <td>
+                                            {{ u.fecha_registro }}
+                                        </td>
+                                        <td>
+                                            {{ u.id_rol }}
+                                        </td>
+                                        <td class="product-total">
+                                            <a href="{{ URL }}?controller=users&action=edit&id={{ u.id }}" class="btn btn-warning btn-sm">
+                                                Editar
+                                                                                                
+                                                                                                                            
+                                                                                            
+                                            </a>
+                                            <a href="{{ URL }}?controller=users&action=delete&id={{ u.id }}" class="btn btn-danger btn-sm">
+                                                Eliminar
+                                                                                                
+                                                                                                                            
+                                                                                            
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                <!-- /.row -->
+                </div>
+            <!-- /.container-fluid -->
+            </section>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                Modal title
+                                                            
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="row g-3" action="{{ URL }}?controller=users&action=save" method="POST">
+                                <div class="col-md-6">
+                                    <label for="inputnombre" class="form-label">
+                                        Nombre
+                                                                            
+                                    </label>
+                                    <input type="text" class="form-control" id="nombre" name="nombre"></div>
+                                <div class="col-md-6">
+                                    <label for="inputApellidos" class="form-label">
+                                          Apellidos
+                                    </label>
+                                    <input type="text" class="form-control" id="apellidos" name="apellidos"></div>
+                                    <div class="col-md-6">
+                                        <label for="inputState" class="form-label">
+                                           Nacionalidad
+                                                                                            
+                                        </label>
+                                        <select id="inputState" class="form-select" name="nacionalidad">
+                                            <option select>
+                                                España
+                                                                                             
+                                            </option>
+                                            <option>
+                                               Inglaterra
+                                                                                                    
+                                            </option>
+                                            <option>
+                                                 EE.UU
+                                                                                                    
+                                            </option>
+                                            <option>
+                                                  Francia
+                                                                                                    
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="inputState" class="form-label">
+                                            Tipo de Usuario
+                                                                                            
+                                        </label>
+                                        <select id="inputState" class="form-select" name="rol">
+                                              <option select value="1">
+                                              Admin
+                                                                                                    
+                                            </option>
+                                            <option value ="2">
+                                                User
+                                                                                                    
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="inputEmail4" class="form-label">
+                                            Email
+                                                                                            
+                                        </label>
+                                        <input type="email" class="form-control" id="inputEmail4" name="email"></div>
+                                        <div class="col-12 mb-4">
+                                           <label for="inputPassword4" class="form-label">
+                                              Password
+                                                                                                    
+                                            </label>
+                                            <input type="password" class="form-control" id="inputPassword4" name="password">
+                                        </div>
+                                            
+                                    </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                                                                            
+                                            </button>
+                                            <button type="submit" class="btn btn-success">
+                                                Save changes
+                                                                                            
+                                            </button>
+                                        </div>
+                                </form>
+                    </div>
+                </div>
+
             </div>
-        <!-- /.row -->
-        </div>
-    <!-- /.container-fluid -->
-    </section>
 {% endblock %}
-{% block script %}{% endblock %}
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+{% endblock %}
+                        

@@ -163,7 +163,8 @@ class User implements Model
     public function save()
     {
         $db = Database::conectar();
-        $save = $db->query("INSERT INTO users (nombre, apellidos, nacionalidad, email, password, id_rol) VALUES ('$this->nombre','$this->apellidos', '$this->nacionalidad', '$this->email', '$this->password', 2)");
+        $save = $db->query("INSERT INTO users (nombre, apellidos, nacionalidad, email, password, id_rol) VALUES ('$this->nombre','$this->apellidos', '$this->nacionalidad', '$this->email', '$this->password', '$this->id_rol')");
+        
     }
 
     // Actualizar en la base de datos filtrando por id
@@ -171,9 +172,9 @@ class User implements Model
     {
         $db = Database::conectar();
         if ($this->password != null) {
-            $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', email='$this->email', password='$this->password' WHERE id=$this->id");
+            $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', nacionalidad ='$this->nacionalidad', email='$this->email', password='$this->password', id_rol='$this->id_rol' WHERE id=$this->id");
         } else {
-            $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', email='$this->email' WHERE id=$this->id");
+            $update = $db->query("UPDATE users SET nombre='$this->nombre', apellidos='$this->apellidos', nacionalidad ='$this->nacionalidad', email='$this->email',id_rol='$this->id_rol' WHERE id=$this->id");
         }
     }
 
