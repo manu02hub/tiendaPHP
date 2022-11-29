@@ -6,12 +6,26 @@ class AuthController
      */
     public function login()
     {
-        echo $GLOBALS['twig']->render('auth/login.twig');
+        echo $GLOBALS['twig']->render(
+            'auth/login.twig',
+            [
+                'URL' => URL
+            ]
+        );
     }
 
     public function registro()
     {
         echo $GLOBALS['twig']->render('auth/registro.twig');
+    }
+
+    public function logout()
+    {
+
+        if (isset($_SESSION['identity'])) {
+            unset($_SESSION['identity']);
+        }
+        header('Location: ' . URL . '?controller=auth&action=login');
     }
 
     public function doLogin()
@@ -40,15 +54,16 @@ class AuthController
         /**
          * Debo distinguir a que vista llevo a mi administrador y a mi cliente. Deben ser distintas
          */
+
         if ($user_ok && is_object($user_ok)) {
+
             $_SESSION['identity'] = $user_ok;
-
-           
-
             if ($_SESSION['identity']->id_rol == 2) {
-                header('Location: ' . URL . '?controller=index&action=shop');
-            } else {
+                header('Location: ' . URL . '?controller=index&action=index');
+            } else if ($_SESSION['identity']->id_rol == 1) {
                 header('Location: ' . URL . '?controller=admin&action=adminIndex');
+            } else {
+                header('Location: ' . URL . '?controller=auth&action=login');
             }
         } else {
             header('Location: ' . URL . '?controller=auth&action=registro');

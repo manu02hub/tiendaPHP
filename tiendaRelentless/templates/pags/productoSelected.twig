@@ -1,0 +1,106 @@
+{# Enlazar este fichero con la plantilla correspondiente #}
+{% extends "layouts/public.twig" %}
+
+
+{% block title %}Producto{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+
+{% block content %}	
+<div class="container mt-5 mb-5">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-sm-1">
+            <div class="card">
+                <img src="http://localhost/img/DWES/p2/art1.png" class="w-100">
+            </div>
+            <div class="card mt-2">
+                <img src="http://localhost/img/DWES/p2/teeLogo.jpg" class="w-100">
+            </div>
+            <div class="card mt-2">
+                <img src="http://localhost/img/DWES/p2/br2.jpg" class="w-100">
+            </div>
+            <div class="card mt-2">
+                <img src="http://localhost/img/DWES/p2/br3.jpg" class="w-100">
+            </div>
+        </div>
+        <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="card">
+                <img src="{{ producto.img }}" class="w-100">
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <h3>{{ producto.nombre }}</h3>
+            <p><del>{{ producto.precio_regular }}€</del> {{ producto.precio_venta }}€</p>
+            <p class="text-justify">Hecho de algodón puro, Off-White es una colección inspirada en el streetwear que
+                continúa rompiendo
+                con las convenciones de la moda divstream. Hechas en Italia, estas zapatillas bajas Odsy-1000 negras
+                y marrones.</p>
+
+            <table class="table table-borderless w-50">
+                <tr>
+                    <th scope="row">Material</th>
+                    <td>100% cotton</td>
+                </tr>
+                <tr>
+                    <th scope="row">Delivery</th>
+                    <td>Spain</td>
+                </tr>
+            </table>
+
+            <div class="border-top">
+                <form class="form-inline mt-2">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <select class="form-select w-100 mt-2" aria-label="Default select example">
+                                <option selected>Select Size</option>
+                                <option value="1">S</option>
+                                <option value="2">M</option>
+                                <option value="3">L</option>
+                                <option value="4">XL</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 mt-3">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                    id="inlineRadio1" value="option1">
+                                <label class="form-check-label" for="inlineRadio1">Black</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inlineRadioOptions"
+                                    id="inlineRadio2" value="option2">
+                                <label class="form-check-label" for="inlineRadio2">White</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                            <div class="d-grid gap-2 d-md-block">
+                                <button class="btn btn-danger" type="button">Finalizar Compra</button>
+                                <a class="btn btn-secondary" type="button" href="{{ URL }}?controller=carrito&action=agregar&id={{ producto.id }}">
+                                    <i class="fa fa-cart-arrow-down me-2" aria-hidden="true"></i>Añadir al Carrito
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('.product-image-thumb').on('click', function () {
+            var $image_element = $(this).find('img')
+            $('.product-image').prop('src', $image_element.attr('src'))
+            $('.product-image-thumb.active').removeClass('active')
+            $(this).addClass('active')
+        })
+    })
+</script>
+{% endblock %}

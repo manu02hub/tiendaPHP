@@ -21,7 +21,7 @@ class UsersController
                 ]
             );
         } else {
-            header('Location: ' . URL . 'controller=auth&action=login');
+            header('Location: ' . URL . '?controller=auth&action=login');
         }
     }
 
@@ -48,20 +48,18 @@ class UsersController
      */
     public static function show()
     {
-        if (isset($_SESSION['identity']) && isset($_SESSION['admin'])) {
+        
             $user = new User();
-            $user->setId($_GET['id']);
+            $arr = $user->findAll()->fetch_object();
+            $arr = '"data": ['.json_encode($arr).']';
             echo $GLOBALS["twig"]->render(
-                'users/show.twig',
+                'users/json.twig',
                 [
-                    'user' => $user->findById(),
-                    'identity' => $_SESSION['identity'],
+                    'user' => $arr,
                     'URL' => URL
                 ]
             );
-        } else {
-            header('Location: ' . URL . 'controller=auth&action=login');
-        }
+       
     }
 
     /**

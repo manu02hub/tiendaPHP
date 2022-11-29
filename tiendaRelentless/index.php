@@ -18,6 +18,8 @@
     include 'controllers/AdminController.php';
     include 'controllers/CategoriasController.php';
     include 'controllers/ProductosController.php';
+    include 'controllers/CarritoController.php';
+    include 'controllers/PedidosController.php';
   
     
     session_start();

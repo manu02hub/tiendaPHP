@@ -19,8 +19,10 @@ Index Admin
 {% block content %}
 
 <body>
-    <div class="row m-5">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+    
+    <div class="card  mt-3 me-3">
+        <h5 class="card-header">Mis Productos</h5>
+        <div class="card-body">
             <table id="example" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
@@ -39,7 +41,7 @@ Index Admin
                     {% for u in productos %}
                     <tr>
                         <td>{{ u.id }}</td>
-                        <td><img src="{{ u.img }}"> </td>
+                        <td><img src="{{ u.img }}" width="100"> </td>
                         <td>{{ u.nombre }}</td>
                         <td>{{ u.precio_regular }}</td>
                         <td>{{ u.precio_venta }}</td>
@@ -55,7 +57,7 @@ Index Admin
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>     
 </body>
 {% endblock %}
 {% block script %}

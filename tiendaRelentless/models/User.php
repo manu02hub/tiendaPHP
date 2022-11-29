@@ -207,7 +207,7 @@ class User implements Model
              * password_verify comprueba un string con otro encriptado.
              * En este caso lo utilizo para comprobar mi password con el de BD
              */
-            $verify = password_verify($this->password, $user->password);
+            password_verify($this->password, $user->password);
 
             
         }

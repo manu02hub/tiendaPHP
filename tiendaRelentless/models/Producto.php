@@ -134,7 +134,8 @@ class Producto implements Model
     public function findById()
     {
         $db = Database::conectar();
-        return $db->query("SELECT * FROM productos WHERE id=$this->id")->fetch_object();
+        $p = $db->query("SELECT * FROM productos WHERE id=$this->id")->fetch_object();
+        return $p;
     }
 
     // Insertar en la base de datos
@@ -142,7 +143,6 @@ class Producto implements Model
     {
         $db = Database::conectar();
         $save = $db->query("INSERT INTO productos (img, nombre, stock, precio_regular, precio_venta, id_categoria) VALUES ('http://localhost/img/DWES/p2/$this->img','$this->nombre','$this->stock', '$this->precio_regular', '$this->precio_venta', '$this->id_categoria')");
-       
     }
 
     // Actualizar en la base de datos filtrando por id
