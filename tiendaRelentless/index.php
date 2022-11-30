@@ -20,6 +20,7 @@
     include 'controllers/ProductosController.php';
     include 'controllers/CarritoController.php';
     include 'controllers/PedidosController.php';
+    include 'controllers/EventosController.php';
   
     
     session_start();

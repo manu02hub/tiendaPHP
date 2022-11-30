@@ -21,4 +21,9 @@ class IndexController
     {
         echo $GLOBALS['twig']->render('pags/shop.twig');
     }
+
+    public static function calendarUser()
+    {
+        echo $GLOBALS['twig']->render('pags/calendarUser.twig');
+    }
 }

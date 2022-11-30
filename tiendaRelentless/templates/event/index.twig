@@ -1,217 +1,190 @@
 {# Enlazar este fichero con la plantilla correspondiente #}
 {% extends "layouts/private.twig" %}
 {% block title %}
-    Index Admin
-    
+Index Admin
+
 {% endblock %}
 {% block style %}
-    <!-- CSS only -->
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
-            <!-- JavaScript Bundle with Popper -->
-            <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-            <script type="text/javascript" charset="utf8"
-src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
-        {% endblock %}
-        {% block content %}
-            <div class="card mt-3 me-3">
-                <div class="card-header">
-                    Tabla Usuarios Relentless
-                      
-                </div>
-                <div class="card-body">
-                    <!-- Main content -->
-                    <table id="example" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>
-                                    Id                    
-                                            
-                                </th>
-                                <th>
-                                    Nombre                      
-                                            
-                                </th>
-                                <th>
-                                    Apellidos
-                                            
-                                </th>
-                                <th>
-                                    Nacionalidad                         
-                                            
-                                </th>
-                                <th>
-                                    Email                      
-                                            
-                                </th>
-                                <th>
-                                    Fecha Registro                       
-                                            
-                                </th>
-                                <th>
-                                    Id rol                         
-                                            
-                                </th>
-                                <th>
-                                    <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                        Crear
-                                                    
-                                    </button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for u in users %}
-                                <tr>
-                                    <td>
-                                        {{ u.id }}
-                                    </td>
-                                    <td>
-                                        {{ u.nombre }}
-                                    </td>
-                                    <td>
-                                        {{ u.apellidos }}
-                                    </td>
-                                    <td>
-                                        {{ u.nacionalidad }}
-                                    </td>
-                                    <td>
-                                        {{ u.email }}
-                                    </td>
-                                    <td>
-                                        {{ u.fecha_registro }}
-                                    </td>
-                                    <td>
-                                        {{ u.id_rol }}
-                                    </td>
-                                    <td class="product-total">
-                                        <a href="{{ URL }}?controller=users&action=edit&id={{ u.id }}" class="btn btn-warning btn-sm">
-                                            Editar                                                
-                                                        
-                                        </a>
-                                        <a href="{{ URL }}?controller=users&action=delete&id={{ u.id }}" class="btn btn-danger btn-sm">
-                                            Eliminar
-                                                        
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+<link href='node_modules/fullcalendar/main.css' rel='stylesheet' />
+<!-- CSS only -->
+<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css' rel='stylesheet'>
+<link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+
+<script src='node_modules/fullcalendar/main.js'></script>
+<script src='node_modules/fullcalendar/locales/es.js'></script>
+
+<script src="resources/jquery/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js"
+    integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk"
+    crossorigin="anonymous"></script>
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+    }
+
+    #calendar {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div id='calendar'></div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalCrearEventos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title fs-5" id="tituloModal"></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-        <!-- /.container-fluid -->
-        </section>
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
-                            Modal title
-                                                                                        
-                                                        
-                        </h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body">
+                <form class="row" method="POST" id="formularioCalendar" action ="{{ URL }}?controller=eventos&action=save">
+                    <input type="hidden" class="form-control" id="idEvento">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Titulo</label>
+                        <input type="text" class="form-control" id="tituloEvento" name="titulo">
                     </div>
-                    <div class="modal-body">
-                        <form class="row g-3" action="{{ URL }}?controller=users&action=save" method="POST">
-                            <div class="col-md-6">
-                                <label for="inputnombre" class="form-label">
-                                    Nombre
-                                                                                                                
-                                                                        
-                                </label>
-                                <input type="text" class="form-control" id="nombre" name="nombre"></div>
-                                <div class="col-md-6">
-                                    <label for="inputApellidos" class="form-label">
-                                        Apellidos
-                                                                            
-                                    </label>
-                                    <input type="text" class="form-control" id="apellidos" name="apellidos"></div>
-                                    <div class="col-md-6">
-                                        <label for="inputState" class="form-label">
-                                            Nacionalidad
-                                                                                                                                        
-                                                                                    
-                                        </label>
-                                        <select id="inputState" class="form-select" name="nacionalidad">
-                                            <option select>
-                                                España
-                                                                                                                                             
-                                                                                            
-                                            </option>
-                                            <option>
-                                                Inglaterra
-                                                                                                                                                    
-                                                                                            
-                                            </option>
-                                            <option>
-                                                EE.UU
-                                                                                                                                                    
-                                                                                            
-                                            </option>
-                                            <option>
-                                                Francia
-                                                                                                                                                    
-                                                                                            
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="inputState" class="form-label">
-                                            Tipo de Usuario
-                                                                                                                                        
-                                                                                    
-                                        </label>
-                                        <select id="inputState" class="form-select" name="rol">
-                                            <option select value="1">
-                                                Admin
-                                                                                                                                                    
-                                                                                            
-                                            </option>
-                                            <option value="2">
-                                                User
-                                                                                                                                                    
-                                                                                            
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12">
-                                        <label for="inputEmail4" class="form-label">
-                                            Email
-                                                                                                                                        
-                                                                                    
-                                        </label>
-                                        <input type="email" class="form-control" id="inputEmail4" name="email"></div>
-                                        <div class="col-12 mb-4">
-                                            <label for="inputPassword4" class="form-label">
-                                                Password
-                                                                                                                                                    
-                                                                                            
-                                            </label>
-                                            <input type="password" class="form-control" id="inputPassword4" name="password"></div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                                Close                                               
-                                                                                        
-                                            </button>
-                                            <button type="submit" class="btn btn-success">
-                                                Save changes                                                
-                                                                                        
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    {% endblock %}
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Descripcion</label>
+                        <input type="textarea" class="form-control" id="descripcion" name="descripcion">
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <label class="form-label">Fecha Inicio</label>
+                        <input type="date" class="form-control" id="fechaInit" name="start">
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <label class="form-label">Fecha Fin</label>
+                        <input type="date" class="form-control" id="fechaEnd" name="end">
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <label class="form-label">Color</label>
+                        <input type="color" class="form-control" id="color" name="color">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-success" id="crear" value="save">Crear</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditEventos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title fs-5" id="tituloModalEdit"></h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row" method="POST" action ="{{ URL }}?controller=eventos&action=update">
+                    <input type="hidden" class="form-control" id="idEventoEdit" name="idEventoEdit">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Titulo</label>
+                        <input type="text" class="form-control" id="tituloEventoEdit" name="tituloEdit">
+                    </div>
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Descripcion</label>
+                        <input type="textarea" class="form-control" id="descripcionEdit" name="descripcionEdit">
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <label class="form-label">Fecha Inicio</label>
+                        <input type="date" class="form-control" id="fechaInitEdit" name="startEdit">
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <label class="form-label">Fecha Fin</label>
+                        <input type="date" class="form-control" id="fechaEndEdit" name="endEdit">
+                    </div>
+                    <div class="col-lg-4 mb-3">
+                        <label class="form-label">Color</label>
+                        <input type="color" class="form-control" id="colorEdit" name="colorEdit">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-warning" id="guardar" value="edit">Guardar Cambios</button>
+                <a type="button" class="btn btn-danger" id="eliminar" value="delete">Eliminar</a>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
 {% block script %}
 <script>
-    $(document).ready(function () {
-        $('#example').DataTable();
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            locale: 'es',
+            timeZone: 'Europe/Madrid',
+            themeSystem: 'bootstrap5',
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+
+            },
+            dateClick: function (info) {
+                crearEvento(info);
+                mostrarModalCrear();
+            },
+            events: '{{ URL }}?controller=eventos&action=show',
+
+            eventClick: function (info) {
+                cogerEvento(info);
+                mostrarModalEdit();
+            }
+
+        });
+        calendar.render();
     });
+
+    function mostrarModalCrear() {
+        $("#modalCrearEventos").modal('show');
+    }
+    function mostrarModalEdit() {
+        $("#modalEditEventos").modal('show');
+    }
+
+
+    function crearEvento(info) {
+        
+        $("#tituloModal").text("Nuevo Evento");
+        $("#tituloEvento").val("");
+        $("#descripcion").val("");
+        $("#fechaInit").val(info.dateStr);
+        $("#horaInit").val("");
+        $("#fechaEnd").val("");
+        $("#horaEnd").val("");
+       
+    }
+
+    function cogerEvento(info) {
+        $("#tituloModalEdit").text("Mi Evento");
+        $("#idEventoEdit").val(info.event.id);
+        $("#tituloEventoEdit").val(info.event.title);
+        $("#descripcionEdit").val(info.event.extendedProps.description);
+        $("#fechaInitEdit").val(info.event.startStr);
+        $("#horaInitEdit").val(info.event.start);
+        $("#fechaEndEdit").val(info.event.endStr);
+        $("#horaEndEdit").val(info.event.end);
+        $("#colorEdit").val(info.event.backgroundColor);
+        $("#eliminar").attr("href","http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/?controller=eventos&action=delete&id="+info.event.id);
+        
+    }
+
 </script>
 {% endblock %}
