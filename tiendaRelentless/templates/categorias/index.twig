@@ -18,77 +18,91 @@ Index Admin
 {% endblock %}
 {% block content %}
 
-<section class="content">
-    <div class="container-fluid">
-        <div class="row m-3">
-            <div class="card">
-                <h5 class="card-header">Categorías</h5>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4">
-                            <h5>Add New Category</h5>
-                            <p>Product categories for your store can be managed here. To change the order of categories
-                                on the
-                                front-end you can drag and drop to sort them. To see more categories listed click the
-                                "screen
-                                options" link at the top-right of this page.</p>
-                            <form action="{{ URL }}?controller=categorias&action=save" method="POST">
-                                <div class="col-md-12 mb-2">
-                                    <input type="text" class="form-control" id="nombre" name="nombre"  placeholder="Nombre de la Categoría">
-                                </div>
-                                <div class="d-grid gap-2">
-                                    <button class="btn btn-primary" type="submit">Añadir Categoría</button>
-                                </div>
-                            </form>
+<div class="row mt-5 me-5">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+            <h5 class="card-header">Categorías</h5>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <div class="card">
+                            <div class="card-header">
+                                Add New Category
+                            </div>
+                            <div class="card-body">
+                                <p>Product categories for your store can be managed here. To change the order of
+                                    categories
+                                    on the
+                                    front-end you can drag and drop to sort them. To see more categories listed click
+                                    the
+                                    "screen
+                                    options" link at the top-right of this page.</p>
+                                <form action="{{ URL }}?controller=categorias&action=save" method="POST">
+                                    <div class="col-md-12 mb-2">
+                                        <input type="text" class="form-control" id="nombre" name="nombre"
+                                            placeholder="Nombre de la Categoría">
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-primary" type="submit">Añadir Categoría</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                            <table id="example" class="table table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for u in categorias %}
-                                    <tr>
-                                        <td>
-                                            {{ u.id }}
-                                        </td>
-                                        <td>
-                                            {{ u.nombre }}
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal" id="editar">
-                                                Editar
-                                            </button>
-                                            <a href="{{ URL }}?controller=categorias&action=delete&id={{ u.id }}" class="btn btn-danger btn-sm">
-                                                Eliminar                                              
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <div class="card">
+                            <div class="card-header">
+                                Mis categorías
+                            </div>
+                            <div class="card-body">
+                                <table id="example" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Nombre</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for u in categorias %}
+                                        <tr>
+                                            <td>
+                                                {{ u.id }}
+                                            </td>
+                                            <td>
+                                                {{ u.nombre }}
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-warning btn-sm"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal" id="editar">
+                                                    Editar
+                                                </button>
+                                                <a href="{{ URL }}?controller=categorias&action=delete&id={{ u.id }}"
+                                                    class="btn btn-danger btn-sm">
+                                                    Eliminar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-
-</body>
+</div>
 
 {% endblock %}
 {% block script %}
 <script>
     $(document).ready(function () {
         $('#example').DataTable();
-        $('editar').click(function(){
-            $('nombreEdit').val( {{ u.nombre }})
-        });
+        $('editar').click(function () {
+            $('nombreEdit').val({{ u.nombre }})
+    });
     });
 </script>
 {% endblock %}

@@ -61,17 +61,44 @@ class CarritoController
              */
             $cantidad = 1;
 
-            /**
-             * Mi $_SESSION['carrito] contiene un array con los valores seleccionados
-             */
-            $_SESSION['carrito'][$_SESSION['identity']->id][] = array(
-                "id_producto" => $id,
-                "precio" => $precio,
-                "nombre" => $nombre,
-                "img" => $img,
-                "stock" => $stock,
-                "cantidad" => $cantidad
-            );
+
+            if ($_SESSION['carrito'] != null && $_SESSION['carrito'][$_SESSION['identity']->id]) {
+
+                $contador = 0;
+
+                foreach ($_SESSION['carrito'][$_SESSION['identity']->id] as $indice => $elemento) {
+
+                    if ($elemento['id_producto'] == $id) {
+                        $_SESSION['carrito'][$_SESSION['identity']->id][$indice]['cantidad']++;
+                        $contador++;
+                    }
+                }
+
+                if ($contador == 0) {
+
+                    $_SESSION['carrito'][$_SESSION['identity']->id][] = array(
+                        "id_producto" => $id,
+                        "precio" => $precio,
+                        "nombre" => $nombre,
+                        "img" => $img,
+                        "stock" => $stock,
+                        "cantidad" => $cantidad
+                    );
+                }
+
+            }else{
+                $_SESSION['carrito'][$_SESSION['identity']->id][] = array(
+                    "id_producto" => $id,
+                    "precio" => $precio,
+                    "nombre" => $nombre,
+                    "img" => $img,
+                    "stock" => $stock,
+                    "cantidad" => $cantidad
+                );
+            }
+
+            var_dump($_SESSION['carrito'][$_SESSION['identity']->id]);
+
 
             header('Location: ' . URL . '?controller=productos&action=mostrarTienda');
         } else {
@@ -91,7 +118,47 @@ class CarritoController
 
     public static function update()
     {
-        if (isset($_SESSION['identity']) && isset($_SESSION['carrito'][$_SESSION['identity']->id]) && !isset($_SESSION['admin'])) {
+        if (isset($_SESSION['carrito'][$_SESSION['identity']->id])) {
+
+
+
+            echo $GLOBALS['twig']->render(
+                'carrito/index.twig',
+                [
+                    'carrito' => $_SESSION['carrito'][$_SESSION['identity']->id],
+                    'identity' => $_SESSION['identity'],
+                    'URL' => URL
+                ]
+            );
+        } else {
+            echo $GLOBALS['twig']->render(
+                'carrito/index.twig',
+                [
+                    'identity' => $_SESSION['identity'],
+                    'URL' => URL
+                ]
+            );
+        }
+    }
+
+    public static function restarCantidad(){
+        foreach ($_SESSION['carrito'][$_SESSION['identity']->id] as $indice => $elemento) {
+
+            if ($elemento['id_producto'] == $_GET['id']) {
+                $_SESSION['carrito'][$_SESSION['identity']->id][$indice]['cantidad']--;
+               
+            }
+        }
+        header('Location: ' . URL . '?controller=carrito&action=index');
+    }
+
+    public static function sumarCantidad(){
+        foreach ($_SESSION['carrito'][$_SESSION['identity']->id] as $indice => $elemento) {
+
+            if ($elemento['id_producto'] == $_GET['id']) {
+                $_SESSION['carrito'][$_SESSION['identity']->id][$indice]['cantidad']++;
+               
+            }
         }
         header('Location: ' . URL . '?controller=carrito&action=index');
     }
