@@ -41,6 +41,14 @@ class PedidosController
         }
     }
 
+    public static function graficoYear()
+    {
+
+        $pedido = new Pedido();
+        $arr = $pedido->pedidosYear();
+        echo json_encode($arr);
+    }
+
 
     /**
      * Funcion que crea un pedido nuevo con los elementos del carrito

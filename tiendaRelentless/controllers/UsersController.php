@@ -39,7 +39,7 @@ class UsersController
                 ]
             );
         } else {
-            header('Location: ' . URL . 'controller=auth&action=login');
+            header('Location: ' . URL . '?controller=auth&action=login');
         }
     }
 
@@ -48,18 +48,10 @@ class UsersController
      */
     public static function show()
     {
-        
-            $user = new User();
-            $arr = $user->findAll()->fetch_object();
-            $arr = '"data": ['.json_encode($arr).']';
-            echo $GLOBALS["twig"]->render(
-                'users/json.twig',
-                [
-                    'user' => $arr,
-                    'URL' => URL
-                ]
-            );
-       
+        $user = new User();
+        $arr = $user->findAll();
+        echo '{
+            "data":'.json_encode($arr).'}';
     }
 
     /**
@@ -138,9 +130,9 @@ class UsersController
             $user = new User();
             $user->setId($_GET['id']);
             $user->delete();
-            header('Location: ' . URL . 'controller=users&action=index');
+            header('Location: ' . URL . '?controller=users&action=index');
         } else {
-            header('Location: ' . URL . 'controller=auth&action=login');
+            header('Location: ' . URL . '?controller=auth&action=login');
         }
     }
 }

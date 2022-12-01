@@ -131,7 +131,7 @@ class ProductosController
     {
         if (isset($_SESSION['identity']) && $_SESSION['identity']->id_rol == 1) {
             $producto = new Producto();
-            $producto->setImg($_POST['img']);
+            $producto->setImg($_FILES['img']['name']);
             $producto->setNombre($_POST['nombre']);
             $producto->setStock($_POST['stock']);
             $producto->setIdCategoria($_POST['categoria']);
@@ -152,7 +152,7 @@ class ProductosController
         if (isset($_SESSION['identity']) && $_SESSION['identity']->id_rol == 1) {
             $producto = new Producto();
             $producto->setId($_POST['id']);
-            // $producto->setImg($_POST['img']);
+            $producto->setImg($_FILES['img']['name']);
             $producto->setNombre($_POST['nombre']);
             $producto->setStock($_POST['stock']);
             $producto->setIdCategoria($_POST['categoria']);

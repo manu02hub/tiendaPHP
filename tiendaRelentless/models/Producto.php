@@ -149,7 +149,7 @@ class Producto implements Model
     public function update()
     {
         $db = Database::conectar();
-        $update = $db->query("UPDATE productos SET img='http://localhost/img/DWES/p2/', nombre='$this->nombre', stock='$this->stock', precio_regular='$this->precio_regular', precio_venta='$this->precio_venta', id_categoria='$this->id_categoria' WHERE id=$this->id");
+        $update = $db->query("UPDATE productos SET img='http://localhost/img/DWES/p2/$this->img', nombre='$this->nombre', stock='$this->stock', precio_regular='$this->precio_regular', precio_venta='$this->precio_venta', id_categoria='$this->id_categoria' WHERE id=$this->id");
     }
 
     // Actualizar en la base de datos filtrando por id

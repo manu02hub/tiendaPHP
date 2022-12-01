@@ -149,7 +149,13 @@ class User implements Model
     {
         $db = Database::conectar();
         $findAll = $db->query("SELECT * FROM users;");
-        return $findAll;
+        $data = array();
+
+        while ($row = $findAll->fetch_assoc()) {
+
+            $data[] = $row;
+        }
+        return $data;
     }
 
     // Me devuelve el elemento filtrado por id

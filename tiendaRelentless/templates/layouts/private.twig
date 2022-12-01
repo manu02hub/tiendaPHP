@@ -19,7 +19,7 @@
     </head>
     <body class="container-fluid">
         <div class="row" style="height: 100vh;">
-            <div class="col-lg-2 col-md-2 col-sm-2" style="margin-left:-20px ;">
+            <div class="col-lg-2 col-md-12 col-sm-12" style="margin-left:-20px ;">
                 <div class="d-flex flex-column flex-shrink-0 p-3 bg-dark h-100 text-white">
                     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none text-white">
                         <img src = "http://localhost/img/DWES/p2/LogoBlanco.png" class="w-25 me-3"> RELENTLESS
@@ -27,42 +27,42 @@
                     <hr>
                     <ul class="nav nav-pills flex-column mb-auto">
                         <li class="nav-item">
-                            <a href="{{URL}}?controller=users&action=index" class="nav-link active text-white" aria-current="page">
+                            <a href="{{URL}}?controller=admin&action=adminIndex" class="nav-link active text-white btnSelect" aria-current="page" type="button">
                         <i class="fa fa-home"></i>
                                 Home
                                                         
                             </a>
                         </li>
                         <li>
-                            <a href="{{URL}}?controller=users&action=index" class="nav-link text-white">
+                            <a href="{{URL}}?controller=users&action=index" class="nav-link text-white btnSelect" type="button">
                         <i class="fa fa-user"></i>
                                 Usuarios
                                                         
                             </a>
                         </li>
                         <li>
-                            <a href="{{URL}}?controller=categorias&action=index" class="nav-link text-white">
+                            <a href="{{URL}}?controller=categorias&action=index" class="nav-link text-white btnSelect" type="button">
                         <i class="fa fa-list-alt"></i>
                                 Categoria
                                                         
                             </a>
                         </li>
                         <li>
-                            <a href="{{URL}}?controller=productos&action=index" class="nav-link text-white">
+                            <a href="{{URL}}?controller=productos&action=index" class="nav-link text-white btnSelect" type="button">
                         <i class="fa fa-shopping-bag"></i>
                                 Products
                                                         
                             </a>
                         </li>
                         <li>
-                            <a href="{{URL}}?controller=pedidos&action=index" class="nav-link text-white">
+                            <a href="{{URL}}?controller=pedidos&action=index" class="nav-link text-white btnSelect" type="button">
                         <i class="fa fa-truck"></i>
                                 Pedidos
                                                         
                             </a>
                         </li>
                         <li>
-                            <a href="{{URL}}?controller=eventos&action=index" class="nav-link text-white">
+                            <a href="{{URL}}?controller=eventos&action=index" class="nav-link text-white btnSelect" type="button">
                         <i class="fa fa-calendar"></i>
                                 Eventos
                                                         
@@ -84,6 +84,13 @@
                 
             </div>
         </body>
-        {% block script %}{% endblock %}
+    {% block script %}
+    <script>
+        $("btnSelect").click(function(){
+            $(this).addClass("active");
+            $("btnSelect").removeClass("active");
+        });
+    </script>
+    {% endblock %}
     </body>
 </html>

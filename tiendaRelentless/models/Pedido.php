@@ -108,4 +108,54 @@ class Pedido implements Model
         $db = Database::conectar();
         $delete = $db->query("DELETE FROM pedidos WHERE id=$this->id");
     }
+
+    public function pedidosYear()
+    {
+        $tt = 0;
+        $db = Database::conectar();
+        $findAll = $db->query("SELECT * FROM pedidos WHERE YEAR(fecha_pedido) = 2022;");
+        $data = array();
+
+        while ($row = $findAll->fetch_assoc()) {
+
+            $data[] = $row;
+        }
+
+        foreach ($data as $clave => $valor) {
+            // $array[3] se actualizará con cada valor de $array...
+           
+            // $fecha =$valor['fecha_pedido'];
+            
+            $tt = $tt + $valor['total'];
+            // $fecha = date_parse($fecha);
+            
+            // $mes = $fecha["month"];
+
+            // echo $mes;
+        }
+
+        return $tt;
+    }
+
+    public function pedidosLastYear()
+    {
+        $db = Database::conectar();
+        $findAll = $db->query("SELECT * FROM pedidos WHERE YEAR(fecha_pedido) = 2021;");
+        $data = array();
+
+        while ($row = $findAll->fetch_assoc()) {
+
+            $data[] = $row;
+        }
+
+        foreach ($data as $clave => $valor) {
+            // $array[3] se actualizará con cada valor de $array...
+            echo "{$clave} => {$valor} ";
+            print_r($data);
+        }
+
+        die();
+
+        return $data;
+    }
 }
