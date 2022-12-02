@@ -1,0 +1,35 @@
+{# Enlazar este fichero con la plantilla correspondiente #}
+{% extends "layouts/errors.twig" %}
+{% block title %}
+    error 403
+{% endblock %}
+{% block style %}{% endblock %}
+{% block content %}
+    <header>
+        <nav class="bg-info pt-3 pb-3">
+            <div class="container">
+                <h3 class="text-white">
+                    Robust
+                </h3>
+            </div>
+        </nav>
+        <div class="bg-light text-center pt-5" style="height: 100vh;">
+            <div class="container">
+                <h1 class="display-1 pt-5 font-weight-bold">
+                    404
+                </h1>
+                <h1 class="display-4 pt-1 pb-3">
+                    Page not found
+                </h1>
+                <h3 class="font-weight-light text-secondary">
+                    The page you are looking for might have 
+                    <br>
+                        been removed
+                    </h3>
+                    <a href="#" class="btn btn-info mt-3 pt-3 pb-3 pr-4 pl-4">
+                        Return to home
+                    </a>
+                </div>
+            </div>
+        </header>
+{% endblock %}

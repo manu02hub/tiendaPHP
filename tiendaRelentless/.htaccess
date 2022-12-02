@@ -4,11 +4,11 @@
 <IfModule mod_rewrite.c>
     # Activar rewrite
     RewriteEngine on
-    # ErrorDocument 404 http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/templates/error/404.twig
+     ErrorDocument 404 http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/templates/error/404.twig
 
-    # ErrorDocument 403 http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/templates/error/403.twig
+     ErrorDocument 403 http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/templates/error/403.twig
 
-    # ErrorDocument 500 http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/templates/error/500.twig
+     ErrorDocument 500 http://localhost/proyectosPHP/DAW2/1_desarrolloServidor/trimestre1/tienda/tiendaRelentless/templates/error/500.twig
     
     
     # No voy a poder cargar un directorio (!-d) ni un fichero (!-f) cualquiera

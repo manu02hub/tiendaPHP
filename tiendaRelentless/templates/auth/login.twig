@@ -30,17 +30,30 @@
 
                             <h3 class="mb-3">Iniciar Sesión</h3>
 
-                            <form class="row g-3" action="{{ URL }}?controller=auth&action=doLogin" method="POST">
+                            <form class="row g-3 needs-validation" action="{{ URL }}?controller=auth&action=doLogin" method="POST" novalidate>
                                 <div class="col-12">
                                     <label for="inputEmail4" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="inputEmail4" name="email">
+                                    <input type="email" class="form-control" id="inputEmail4" name="email" required>
+                                    <div class="valid-feedback">
+                                        Correo Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Campo Necesario
+                                    </div>
                                 </div>
                                 <div class="col-12 mb-4">
                                     <label for="inputPassword4" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="inputPassword4" name="password">
+                                    <input type="password" class="form-control" id="inputPassword4" name="password" required>
+                                    <div class="valid-feedback">
+                                        Contraseña Correcto!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Campo Necesario
+                                    </div>
                                 </div>
                                 <div class="d-grid gap-2 mb-2">
-                                    <button class="btn btn-primary" type="submit">Iniciar Sesión</button>
+                                    <button class="btn btn-primary" type="submit"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        Iniciar Sesión</button>
                                     <a class="btn btn-outline-dark" type="button" href="{{URL}}?controller=auth&action=registro">Crear Cuenta</a>
                                 </div>  
                                   
@@ -69,5 +82,30 @@
         </div>
     </section>
 </body>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    var spinner;
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated');
+
+                }, false)
+            })
+    })()
+</script>
 
 </html>
